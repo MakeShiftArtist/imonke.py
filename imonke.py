@@ -3,6 +3,7 @@ from datetime import datetime
 import json
 import asyncio
 class __Format__:
+    @staticmethod
     def ordinal(num) -> str:
         """
         Returns ordinal number string from int, e.g. 1, 2, 3 becomes 1st, 2nd, 3rd, etc.
@@ -20,6 +21,7 @@ class __Format__:
           suffix = 'th'
         ord_num = str(n) + suffix
         return ord_num
+    @staticmethod
     def get_full_date(time=None) -> str:
         if time is None:
             time = datetime.now()
@@ -74,7 +76,7 @@ class FindUser:
         self.id_endpoint = self.api + "/id/"
         self.nick_endpoint = self.api + "/nick/"
 
-    async def id(self, id:str=None) -> User or Exception:
+    async def _id(self, id:str=None) -> User or Exception:
         if id is None:
             raise Exception("You need an ID to get the user")
         response =  req.get(f"{self.id_endpoint}{id}")
@@ -154,8 +156,8 @@ class iMonke:
     async def is_email_taken(self, email:str=None) -> bool:
         return not self.check.email(email)
 
-    async def user_by_id(self, id:str=None) -> User or None :
-        return await self.user.id(id)
+    async def user_by_id(self, user_id:str=None) -> User or None :
+        return await self.user._id(user_id)
 
     async def user_by_nick(self, username:str=None) -> User or None:
         return await self.user.nick(username)
